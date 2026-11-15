@@ -1,0 +1,22 @@
+# Visual Studio local settings and caches
+.vs/
+*.vcxproj.user
+*.aps
+
+# Build outputs and intermediate files
+x64/
+x86/
+Win32/
+Debug/
+Release/
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.iobj
+*.ipdb
+*.tlog/
+AppVersion.generated.h
+
+# Local diagnostics
+diagnostics/
