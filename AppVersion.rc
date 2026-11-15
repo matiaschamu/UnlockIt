@@ -14,11 +14,11 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileDescription", "AppUnlock"
+            VALUE "FileDescription", "UnlockIt"
             VALUE "FileVersion", APP_VERSION_STRING
-            VALUE "InternalName", "AppUnlock"
-            VALUE "OriginalFilename", "AppUnlock.exe"
-            VALUE "ProductName", "AppUnlock"
+            VALUE "InternalName", "UnlockIt"
+            VALUE "OriginalFilename", "UnlockIt.exe"
+            VALUE "ProductName", "UnlockIt"
             VALUE "ProductVersion", APP_VERSION_STRING
         END
     END

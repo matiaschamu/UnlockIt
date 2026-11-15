@@ -140,8 +140,8 @@ int wmain(int argc, wchar_t** argv) {
         Check(unlock::Analyze({ fixture.root.wstring() }).deleteDenied == 0, "restored folder deletion rights");
         std::cout << "PASS: nested folder deletion permissions, parent fallback and non-destructive analysis\n";
 
-        std::wstring readyName = L"Local\\AppUnlockTestReady" + std::to_wstring(GetCurrentProcessId());
-        std::wstring releaseName = L"Local\\AppUnlockTestRelease" + std::to_wstring(GetCurrentProcessId());
+        std::wstring readyName = L"Local\\UnlockItTestReady" + std::to_wstring(GetCurrentProcessId());
+        std::wstring releaseName = L"Local\\UnlockItTestRelease" + std::to_wstring(GetCurrentProcessId());
         HANDLE ready = CreateEventW(nullptr, TRUE, FALSE, readyName.c_str());
         HANDLE release = CreateEventW(nullptr, TRUE, FALSE, releaseName.c_str());
         wchar_t exe[32768]{}; GetModuleFileNameW(nullptr, exe, 32768);

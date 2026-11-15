@@ -24,7 +24,7 @@
     <ClInclude Include="Resource.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="AppUnlock.h">
+    <ClInclude Include="UnlockIt.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="UnlockEngine.h">
@@ -32,7 +32,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AppUnlock.cpp">
+    <ClCompile Include="UnlockIt.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="UnlockEngine.cpp">
@@ -40,7 +40,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="AppUnlock.rc">
+    <ResourceCompile Include="UnlockIt.rc">
       <Filter>Archivos de recursos</Filter>
     </ResourceCompile>
     <ResourceCompile Include="AppVersion.rc">
@@ -48,13 +48,13 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="AppUnlock-icon.png">
+    <Image Include="UnlockIt-icon.png">
       <Filter>Archivos de recursos</Filter>
     </Image>
     <Image Include="small.ico">
       <Filter>Archivos de recursos</Filter>
     </Image>
-    <Image Include="AppUnlock.ico">
+    <Image Include="UnlockIt.ico">
       <Filter>Archivos de recursos</Filter>
     </Image>
   </ItemGroup>

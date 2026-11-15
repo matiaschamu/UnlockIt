@@ -1,4 +1,4 @@
-# Guía del proyecto AppUnlock
+# Guía del proyecto UnlockIt
 
 Este archivo conserva las decisiones y lo aprendido durante el desarrollo. Aplica a todo el proyecto. Actualizarlo cuando cambien el comportamiento, las comprobaciones o sus limitaciones. Las nuevas instrucciones del usuario prevalecen sobre las decisiones aquí registradas.
 
@@ -12,16 +12,16 @@ Este archivo conserva las decisiones y lo aprendido durante el desarrollo. Aplic
 - Si faltan permisos, ofrecer reiniciar como administrador conservando la selección.
 - Detectar carpetas internas con marca de solo lectura, restricciones de eliminación y problemas que Windows informe sobre OneDrive.
 - Mantener la interfaz y los mensajes en español, con lenguaje sencillo.
-- La barra de título debe mostrar `AppUnlock - ver <versión>`. El usuario pidió incremento automático en cada compilación de la aplicación, empezando por `1.0.1`.
+- La barra de título debe mostrar `UnlockIt - ver <versión>`. El usuario pidió incremento automático en cada compilación de la aplicación, empezando por `1.0.1`.
 
 ## Estructura y tecnología
 
-- `AppUnlock.slnx`: solución de Visual Studio. Incluye la aplicación, no el proyecto de pruebas.
-- `AppUnlock.vcxproj` y `.filters`: proyecto C++ y organización del Explorador de soluciones. Registrar los nuevos archivos en ambos cuando corresponda.
-- `AppUnlock.cpp`: ventana Win32, dibujo, controles, arrastre, selector de archivos, confirmaciones, trabajo en segundo plano y elevación.
+- `UnlockIt.slnx`: solución de Visual Studio. Incluye la aplicación, no el proyecto de pruebas.
+- `UnlockIt.vcxproj` y `.filters`: proyecto C++ y organización del Explorador de soluciones. Registrar los nuevos archivos en ambos cuando corresponda.
+- `UnlockIt.cpp`: ventana Win32, dibujo, controles, arrastre, selector de archivos, confirmaciones, trabajo en segundo plano y elevación.
 - `UnlockEngine.h` / `UnlockEngine.cpp`: análisis, diagnósticos, consultas de uso, solicitud de cierre y desbloqueo.
-- `AppUnlock.rc`, `Resource.h`, iconos y encabezados: recursos y soporte de la plantilla original. Hay recursos de menú heredados, pero la ventana no carga ninguno.
-- `AppUnlock-icon.png`: fuente del icono de candado rompiéndose, con transparencia. `build/Convert-Icon.ps1` regenera `AppUnlock.ico` y `small.ico` con diez tamaños de 16 a 256 píxeles, preservando el canal alfa. Los menores de 256 se guardan como DIB de 32 bits, de abajo hacia arriba, con máscara AND alineada a 32 bits; solo 256 usa PNG comprimido, conforme a la recomendación de Microsoft para iconos. Ambos recursos existentes se usan para el ejecutable y la ventana; regenerarlos antes de compilar si cambia el PNG. Ante una imagen antigua en el Explorador, actualizar el archivo con SHChangeNotify sin borrar globalmente la caché ni reiniciar el Explorador.
+- `UnlockIt.rc`, `Resource.h`, iconos y encabezados: recursos y soporte de la plantilla original. Hay recursos de menú heredados, pero la ventana no carga ninguno.
+- `UnlockIt-icon.png`: fuente del icono de candado rompiéndose, con transparencia. `build/Convert-Icon.ps1` regenera `UnlockIt.ico` y `small.ico` con diez tamaños de 16 a 256 píxeles, preservando el canal alfa. Los menores de 256 se guardan como DIB de 32 bits, de abajo hacia arriba, con máscara AND alineada a 32 bits; solo 256 usa PNG comprimido, conforme a la recomendación de Microsoft para iconos. Ambos recursos existentes se usan para el ejecutable y la ventana; regenerarlos antes de compilar si cambia el PNG. Ante una imagen antigua en el Explorador, actualizar el archivo con SHChangeNotify sin borrar globalmente la caché ni reiniciar el Explorador.
 - `tests/EngineTests.vcxproj` y `tests/EngineTests.cpp`: pruebas independientes del motor.
 - `README.md`: guía de funcionamiento, compilación, pruebas y limitaciones. Mantenerla alineada con el código.
 - C++20, Unicode y fuentes UTF-8 mediante `/utf-8`. Toolset `v145`, Windows SDK 10.0. Se verificó x64; no dar por probada Win32.
@@ -55,7 +55,7 @@ Este archivo conserva las decisiones y lo aprendido durante el desarrollo. Aplic
 - Cada proceso requiere autorización individual. Antes de actuar y entre cierres se vuelve a analizar: no cerrar procesos nuevos no autorizados ni aquellos que ya no retienen la selección. Una negativa no se sustituye por un cierre masivo.
 - Se comprueban PID y hora de inicio antes de cerrar y antes de finalizar para evitar actuar sobre un PID reutilizado. Se intenta `WM_CLOSE` en las ventanas visibles sin propietario y se esperan hasta cinco segundos cuando se solicitó cierre normal. Si sigue apareciendo como usuario de la selección, puede usarse `TerminateProcess` con la autorización individual explícita.
 - La confirmación advierte que la finalización puede perder cambios y cerrar otras ventanas o chats del mismo programa. Esto afecta también a candidatos como Explorador o Codex. No usar el cierre real de esos procesos para verificar el diagnóstico del usuario.
-- No cerrar AppUnlock, PID 0/4 ni procesos que `IsProcessCritical` identifique como críticos. Si no se puede comprobar la condición de crítico, no cerrarlo. La solicitud de cierre y la finalización fallidas deben quedar en el resultado; el acceso denegado ofrece elevación.
+- No cerrar UnlockIt, PID 0/4 ni procesos que `IsProcessCritical` identifique como críticos. Si no se puede comprobar la condición de crítico, no cerrarlo. La solicitud de cierre y la finalización fallidas deben quedar en el resultado; el acceso denegado ofrece elevación.
 - Ser administrador no garantiza resolver permisos explícitos, protecciones del sistema o fallos del proveedor de nube. El desbloqueo actual no toma posesión ni modifica listas de permisos.
 - Se muestran hasta 200 detalles, sin limitar por ello el recorrido. Los errores incluyen ruta, mensaje y código de Windows. No presentar análisis con errores, cancelaciones u omisiones como una comprobación completa.
 
@@ -78,7 +78,7 @@ Este archivo conserva las decisiones y lo aprendido durante el desarrollo. Aplic
 - El objetivo MSBuild `GenerateAppVersion` ejecuta `build/Increment-Version.ps1` antes de `PreBuildEvent`, salvo en compilaciones de diseño. Se deshabilita la comprobación rápida de proyecto actualizado para que las compilaciones solicitadas a Visual Studio lleguen a MSBuild.
 - El script incrementa el parche y genera `AppVersion.generated.h` dentro de `$(IntDir)`. No editar el encabezado generado. Las inclusiones de C++ y recursos usan esa carpeta.
 - El contador es compartido entre configuraciones y plataformas y usa un bloqueo exclusivo de archivo para serializar las reservas. Cada configuración tiene su propio encabezado.
-- El título y `AppVersion.rc` usan las mismas macros generadas. El recurso de versión se mantiene separado de `AppUnlock.rc`, que es un archivo UTF-16 de la plantilla. Conservar su codificación si se modifica.
+- El título y `AppVersion.rc` usan las mismas macros generadas. El recurso de versión se mantiene separado de `UnlockIt.rc`, que es un archivo UTF-16 de la plantilla. Conservar su codificación si se modifica.
 - Verificar `APP_WINDOW_TITLE` en el encabezado y `FileVersion` / `ProductVersion` del ejecutable tras compilar.
 - Una compilación fallida puede consumir un número. Limpiar o compilar solo las pruebas no lo incrementa. Los componentes respetan el rango de 16 bits de Windows y el parche desborda hacia la versión menor.
 - Verificación del cambio: el script generó `1.0.1` y `1.0.2` usando un contador de prueba independiente; la compilación real Release/x64 produjo `1.0.1`. Se comprobaron `FileVersion`, `ProductVersion` y la cadena de título dentro del ejecutable. Esto no sustituye una inspección visual de la barra de título ni una prueba del botón Compilar de Visual Studio.
@@ -89,13 +89,13 @@ Ejecutar desde la raíz. Esta fue la ubicación de MSBuild en el equipo; si camb
 
 ```powershell
 $msbuildPath = 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe'
-& $msbuildPath AppUnlock.vcxproj /p:Configuration=Debug /p:Platform=x64 /v:minimal /nologo
-& $msbuildPath AppUnlock.vcxproj /p:Configuration=Release /p:Platform=x64 /v:minimal /nologo
+& $msbuildPath UnlockIt.vcxproj /p:Configuration=Debug /p:Platform=x64 /v:minimal /nologo
+& $msbuildPath UnlockIt.vcxproj /p:Configuration=Release /p:Platform=x64 /v:minimal /nologo
 & $msbuildPath tests\EngineTests.vcxproj /p:Configuration=Debug /p:Platform=x64 /v:minimal /nologo
 & .\x64\Tests\EngineTests.exe
 ```
 
-- Salidas: `x64/Debug/AppUnlock.exe`, `x64/Release/AppUnlock.exe` y `x64/Tests/EngineTests.exe`.
+- Salidas: `x64/Debug/UnlockIt.exe`, `x64/Release/UnlockIt.exe` y `x64/Tests/EngineTests.exe`.
 - Comprobar los códigos de salida; la existencia de un ejecutable anterior no prueba una compilación nueva.
 - Las pruebas crean datos propios en `x64/test-data-<PID>`, restauran los permisos que alteran y limpian esos datos. No usar documentos reales o carpetas de OneDrive del usuario para pruebas sin autorización específica.
 - Cubren recursión, rutas Unicode y espacios, selección duplicada, diagnóstico de rutas internas, solo lectura de archivos y carpetas, marca de Internet, conservación de contenido y otros atributos, rutas inexistentes, cancelación y acceso denegado.
@@ -107,7 +107,7 @@ $msbuildPath = 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Cu
 
 ## Estado verificado y pendientes
 
-Última verificación funcional de esta sesión: **14 de noviembre de 2026**, hora de Argentina.
+Última verificación registrada: **15 de noviembre de 2026**, hora de Argentina.
 
 - Compilaciones Debug/x64 y Release/x64 correctas tras agregar carpetas de solo lectura y comprobaciones de eliminación.
 - Todos los grupos de pruebas existentes pasaron con las modificaciones finales.
@@ -119,6 +119,8 @@ $msbuildPath = 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Cu
 - Falta verificar un caso real de fallo de sincronización o borrado en OneDrive. Hay reconocimiento de puntos y errores de nube, pero no validación integral con ese servicio.
 - La revisión visual quedó pendiente: las capturas fallaron con tiempos de espera (`FrameArrived timed out` / `window capture timed out`). No afirmar que se inspeccionó visualmente la interfaz.
 - El diálogo UAC, el arrastre real desde el Explorador y el cierre de una aplicación real con cambios pendientes requieren verificación manual de extremo a extremo. Las pruebas del motor no sustituyen esas comprobaciones.
+
+- La versión Release/x64 `1.0.5` cambia el nombre de la aplicación a **UnlockIt**, incluidos ventana, mensajes, recursos, metadatos del ejecutable, solución, proyecto, fuentes e iconos. Se compiló `UnlockIt.vcxproj` correctamente y se verificaron el título generado y presente en `x64/Release/UnlockIt.exe`, FileDescription, InternalName, OriginalFilename, ProductName y ambas versiones. Se conservó UTF-16 en `UnlockIt.rc`. Este cambio solo modifica nombres: no se repitieron las pruebas del motor ni se inspeccionó visualmente la ventana.
 
 ## Referencias técnicas usadas
 

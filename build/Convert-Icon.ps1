@@ -1,5 +1,5 @@
 param(
-    [string]$SourcePath = (Join-Path $PSScriptRoot '..\AppUnlock-icon.png')
+    [string]$SourcePath = (Join-Path $PSScriptRoot '..\UnlockIt-icon.png')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -97,7 +97,7 @@ try {
     }
     foreach ($frame in $frames) { $writer.Write([byte[]]$frame) }
     $writer.Flush()
-    foreach ($name in @('AppUnlock.ico', 'small.ico')) {
+    foreach ($name in @('UnlockIt.ico', 'small.ico')) {
         $path = Join-Path $PSScriptRoot ('..\' + $name)
         [System.IO.File]::WriteAllBytes($path, $iconStream.ToArray())
         Write-Output "Icono actualizado: $path"

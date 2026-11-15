@@ -1,10 +1,10 @@
-# AppUnlock
+# UnlockIt
 
 Aplicación para Windows que analiza archivos y carpetas para ayudar a identificar qué impide modificarlos o borrarlos. Tiene una ventana simple, sin menús y siempre por encima de las ventanas normales.
 
 ## Cómo usarla
 
-1. Abrí `x64/Release/AppUnlock.exe` después de compilar el proyecto.
+1. Abrí `x64/Release/UnlockIt.exe` después de compilar el proyecto.
 2. Arrastrá un archivo, una carpeta o varios elementos a **Arrastre aquí**. También podés hacer clic en esa zona para elegir archivos; las carpetas se seleccionan arrastrándolas.
 3. Esperá el diagnóstico. Las carpetas se recorren de forma recursiva, incluidas sus subcarpetas. El análisis no borra elementos ni cambia sus atributos o permisos.
 4. Revisá las rutas y los problemas encontrados. Si hay acciones disponibles, pulsá **Desbloquear** y confirmá los cambios propuestos.
@@ -41,7 +41,7 @@ El botón se habilita cuando hay marcas de Internet, archivos o carpetas de solo
 - Revisa de nuevo la selección entre cierres. No cierra procesos nuevos que no se autorizaron y omite a los que ya no figuran reteniendo la selección.
 - Repite el análisis y muestra cuántos elementos se actualizaron, los errores y lo que sigue pendiente.
 
-Los cambios de atributos conservan el contenido y los otros atributos de los archivos. **Desbloquear no borra la selección**, no toma posesión ni cambia permisos de seguridad. Finalizar un proceso sí puede perder datos sin guardar; guardá tu trabajo antes de autorizarlo. Se excluyen AppUnlock y los procesos críticos de Windows; algunos procesos protegidos no podrán cerrarse. Si el único problema detectado no tiene una acción disponible, puede que el botón no se habilite.
+Los cambios de atributos conservan el contenido y los otros atributos de los archivos. **Desbloquear no borra la selección**, no toma posesión ni cambia permisos de seguridad. Finalizar un proceso sí puede perder datos sin guardar; guardá tu trabajo antes de autorizarlo. Se excluyen UnlockIt y los procesos críticos de Windows; algunos procesos protegidos no podrán cerrarse. Si el único problema detectado no tiene una acción disponible, puede que el botón no se habilite.
 
 Solo desbloqueá archivos cuyo origen conozcas: quitar la marca de Internet elimina una advertencia asociada a su procedencia, pero no comprueba que sean seguros.
 
@@ -73,23 +73,23 @@ En archivos de nube que no están completamente disponibles en este equipo, el a
 
 ## Compilación
 
-El icono del ejecutable y de la ventana es el candado rompiéndose de `AppUnlock-icon.png`, con fondo transparente. `AppUnlock.ico` y `small.ico` contienen versiones de 16 a 256 píxeles. Los tamaños menores de 256 usan el formato clásico DIB de 32 bits con máscara de transparencia para las vistas pequeñas del Explorador; solo el de 256 se comprime como PNG. Si se cambia el PNG, ejecutá `powershell -NoProfile -ExecutionPolicy Bypass -File build\Convert-Icon.ps1` antes de compilar para regenerar ambos iconos.
+El icono del ejecutable y de la ventana es el candado rompiéndose de `UnlockIt-icon.png`, con fondo transparente. `UnlockIt.ico` y `small.ico` contienen versiones de 16 a 256 píxeles. Los tamaños menores de 256 usan el formato clásico DIB de 32 bits con máscara de transparencia para las vistas pequeñas del Explorador; solo el de 256 se comprime como PNG. Si se cambia el PNG, ejecutá `powershell -NoProfile -ExecutionPolicy Bypass -File build\Convert-Icon.ps1` antes de compilar para regenerar ambos iconos.
 
 Si una ventana del Explorador conserva un icono anterior después de recompilar, pulsá **F5** en esa carpeta para actualizar la vista.
 
-La barra de título muestra el nombre y la versión, por ejemplo **AppUnlock - ver 1.0.1**. Cada compilación de la aplicación incrementa automáticamente el último número: `1.0.1`, `1.0.2`, `1.0.3`… La misma versión queda en las propiedades del ejecutable.
+La barra de título muestra el nombre y la versión, por ejemplo **UnlockIt - ver 1.0.1**. Cada compilación de la aplicación incrementa automáticamente el último número: `1.0.1`, `1.0.2`, `1.0.3`… La misma versión queda en las propiedades del ejecutable.
 
 El contador se guarda en `BuildVersion.txt` y se comparte entre configuraciones y plataformas. No borrarlo ni reiniciarlo al limpiar los archivos de compilación. El número se reserva al comenzar a compilar; un intento fallido puede consumir una versión. Limpiar el proyecto, abrirlo o compilar únicamente las pruebas no incrementa el contador.
 
 Requiere Visual Studio con las herramientas de escritorio para C++, toolset `v145` y Windows SDK 10.0. El proyecto usa C++20, Unicode y archivos fuente UTF-8.
 
-Abrí `AppUnlock.slnx`, seleccioná **Release / x64** y compilá. El ejecutable queda en `x64/Release/AppUnlock.exe`. También se verificó la compilación **Debug / x64**.
+Abrí `UnlockIt.slnx`, seleccioná **Release / x64** y compilá. El ejecutable queda en `x64/Release/UnlockIt.exe`. También se verificó la compilación **Debug / x64**.
 
 Desde PowerShell en la raíz del proyecto, con la instalación usada durante el desarrollo:
 
 ```powershell
 $msbuildPath = 'C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe'
-& $msbuildPath AppUnlock.vcxproj /p:Configuration=Release /p:Platform=x64 /v:minimal /nologo
+& $msbuildPath UnlockIt.vcxproj /p:Configuration=Release /p:Platform=x64 /v:minimal /nologo
 ```
 
 Si Visual Studio está en otra ubicación, ajustá la ruta de MSBuild.

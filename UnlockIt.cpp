@@ -1,6 +1,6 @@
 #define NOMINMAX
 #include "framework.h"
-#include "AppUnlock.h"
+#include "UnlockIt.h"
 #include "AppVersion.generated.h"
 #include "UnlockEngine.h"
 #include <shellapi.h>
@@ -16,7 +16,7 @@
 #pragma comment(lib, "Dwmapi.lib")
 
 namespace {
-constexpr wchar_t WindowClass[] = L"AppUnlock.SimpleWindow";
+constexpr wchar_t WindowClass[] = L"UnlockIt.SimpleWindow";
 constexpr UINT WorkComplete = WM_APP + 1;
 constexpr int UnlockButton = 1001, AdminButton = 1002, RescanButton = 1003, PickButton = 1004;
 constexpr COLORREF Background = RGB(18, 22, 30), Panel = RGB(27, 33, 44);
@@ -183,7 +183,7 @@ void RequestUnlock(HWND window) {
         std::wstring prompt = process.name + L" (PID " + std::to_wstring(process.identity.dwProcessId) + L")\r\n\r\n";
         prompt += process.directoryReference ? L"Este proceso mantiene abierta una carpeta de la selección. Es un candidato; podría no ser el que impide borrarla.\r\n\r\n" :
             L"Windows identificó este proceso usando archivos de la selección.\r\n\r\n";
-        prompt += L"¿Autorizás cerrar este proceso?\r\n\r\nSe intentará el cierre normal. Si continúa reteniendo la selección, se finalizará. Podés perder cambios sin guardar y se pueden cerrar otras ventanas o chats del mismo programa. Guardá tu trabajo antes de aceptar.\r\n\r\nSí: autorizar este proceso.\r\nNo: dejarlo abierto.\r\nCancelar: no iniciar la operación.\r\n\r\nLos procesos críticos de Windows y AppUnlock no se finalizarán.";
+        prompt += L"¿Autorizás cerrar este proceso?\r\n\r\nSe intentará el cierre normal. Si continúa reteniendo la selección, se finalizará. Podés perder cambios sin guardar y se pueden cerrar otras ventanas o chats del mismo programa. Guardá tu trabajo antes de aceptar.\r\n\r\nSí: autorizar este proceso.\r\nNo: dejarlo abierto.\r\nCancelar: no iniciar la operación.\r\n\r\nLos procesos críticos de Windows y UnlockIt no se finalizarán.";
         const std::wstring title = L"Proceso " + std::to_wstring(i + 1) + L" de " + std::to_wstring(report.processes.size());
         const int answer = MessageBoxW(window, prompt.c_str(), title.c_str(), MB_YESNOCANCEL | MB_ICONWARNING | MB_DEFBUTTON2);
         if (answer == IDCANCEL) return;
@@ -282,7 +282,7 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wParam, LPARAM lPa
         Update(window);
         if (report.needsAdmin && !administrator && !adminPromptShown) {
             adminPromptShown = true;
-            if (MessageBoxW(window, L"Faltan permisos para completar las comprobaciones o el desbloqueo de algunos elementos.\r\n\r\n¿Querés reiniciar AppUnlock como administrador y volver a analizar esta selección? Windows te pedirá autorización.",
+            if (MessageBoxW(window, L"Faltan permisos para completar las comprobaciones o el desbloqueo de algunos elementos.\r\n\r\n¿Querés reiniciar UnlockIt como administrador y volver a analizar esta selección? Windows te pedirá autorización.",
                 L"Se necesitan permisos", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) Elevate(window);
         }
         return 0;
@@ -307,7 +307,7 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wParam, LPARAM lPa
         HDC dc = BeginPaint(window, &paint);
         RECT client; GetClientRect(window, &client);
         FillRect(dc, &client, backgroundBrush);
-        Text(dc, L"AppUnlock", Box(24, 20, 250, 49), bodyFont, Foreground, DT_VCENTER | DT_SINGLELINE);
+        Text(dc, L"UnlockIt", Box(24, 20, 250, 49), bodyFont, Foreground, DT_VCENTER | DT_SINGLELINE);
         Text(dc, administrator ? L"ADMINISTRADOR · SIEMPRE VISIBLE" : L"SIEMPRE VISIBLE", Box(210, 20, 476, 49), smallFont, Accent, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
         Text(dc, selectedLabel, Box(24, 230, 476, 252), smallFont, Muted, DT_PATH_ELLIPSIS | DT_SINGLELINE);
         Text(dc, status, Box(24, 257, 476, 280), bodyFont, Foreground, DT_END_ELLIPSIS | DT_SINGLELINE);
@@ -347,7 +347,7 @@ int APIENTRY wWinMain(HINSTANCE current, HINSTANCE, LPWSTR, int show) {
     cls.lpfnWndProc = WindowProc;
     cls.hInstance = instance;
     cls.hCursor = LoadCursorW(nullptr, IDC_ARROW);
-    cls.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(IDI_APPUNLOCK));
+    cls.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(IDI_UNLOCKIT));
     cls.hIconSm = LoadIconW(instance, MAKEINTRESOURCEW(IDI_SMALL));
     cls.lpszClassName = WindowClass;
     if (!RegisterClassExW(&cls)) return 1;

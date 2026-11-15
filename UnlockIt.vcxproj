@@ -22,7 +22,7 @@
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{4619d1b5-c320-4a96-ba26-ca8c3895ca42}</ProjectGuid>
-    <RootNamespace>AppUnlock</RootNamespace>
+    <RootNamespace>UnlockIt</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -151,18 +151,18 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AppUnlock.h" />
+    <ClInclude Include="UnlockIt.h" />
     <ClInclude Include="UnlockEngine.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AppUnlock.cpp" />
+    <ClCompile Include="UnlockIt.cpp" />
     <ClCompile Include="UnlockEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="AppUnlock.rc" />
+    <ResourceCompile Include="UnlockIt.rc" />
     <ResourceCompile Include="AppVersion.rc" />
   </ItemGroup>
   <ItemGroup>
@@ -171,8 +171,8 @@
     <None Include="build\Convert-Icon.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="AppUnlock-icon.png" />
-    <Image Include="AppUnlock.ico" />
+    <Image Include="UnlockIt-icon.png" />
+    <Image Include="UnlockIt.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
